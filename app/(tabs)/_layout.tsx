@@ -1,59 +1,40 @@
-import React from 'react';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Tabs } from 'expo-router';
-import { Pressable } from 'react-native';
+// PÁGINA RESPONSÁVEL PELO LAYOUT DA ANIMAÇÃO DE STACK E TOPBAR DO 'INDEX DE DASHBOARD' E 'SETTINGS'
+import Colors from "@/constants/Colors";
+import { colors } from "@/src/COMPONENTS/global";
+import { Ionicons } from "@expo/vector-icons";
+import { Stack, useRouter } from "expo-router";
+import { TouchableOpacity } from "react-native";
 
-import Colors from '@/constants/Colors';
-import { useColorScheme } from '@/components/useColorScheme';
-import { useClientOnlyValue } from '@/components/useClientOnlyValue';
+export default function Layout() {
+    const router = useRouter()
 
-// You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
-}
-
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
-  return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        // Disable the static render of the header on web
-        // to prevent a hydration error in React Navigation v6.
-        headerShown: useClientOnlyValue(false, true),
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? 'light'].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="two"
-        options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-        }}
-      />
-    </Tabs>
-  );
+    return (
+        <Stack>
+            <Stack.Screen 
+            name="dashboard" 
+            options={{
+                headerShown: false,
+            }}
+            />
+            <Stack.Screen 
+            name="Works" 
+            options={{
+                headerShown: true,
+                headerStyle: {
+                    backgroundColor: colors.fundo,
+                },
+                headerTitle: "",
+                headerLeft: ({ canGoBack }) =>
+                    canGoBack && (
+                      <TouchableOpacity
+                        onPress={() => router.replace('/(tabs)/dashboard')}
+                        style={{ marginLeft: 10 }} // Espaçamento opcional
+                      >
+                        <Ionicons name="arrow-back" size={27} color={colors.tituloBranco} />
+                      </TouchableOpacity>
+                    ),
+            }}
+            />
+        </Stack>
+    )
 }
