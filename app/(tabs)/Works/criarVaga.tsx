@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Text, View, StyleSheet, TextInput, Alert } from 'react-native';
 import { addDoc, collection } from 'firebase/firestore';
 import { auth, db } from '@/src/firebase/config';
-import { BotãoInicio } from '@/src/COMPONENTS/Botão';
+import { Botão, BotãoInicio } from '@/src/COMPONENTS/Botão';
 import { Picker } from '@react-native-picker/picker';
 import { colors } from '@/src/COMPONENTS/global';
 import { TextArea } from '@/src/COMPONENTS/TextArea';
@@ -14,6 +14,8 @@ export default function Create_vaga() {
   const [descricao, setDescricao] = useState('');
   const [Experiencia, setExperiencia] = useState('');
   const [Competencias, setCompetencias] = useState('');
+  const [setor, setSetor] = useState('');
+  const [localizacao, setLocalizacao] = useState('');
   const [name, setName] = useState('');
   const [empresa, setEmpresa] = useState('');
   const [salario, setSalario] = useState('');
@@ -43,6 +45,8 @@ export default function Create_vaga() {
         Competecias: Competencias,
         Experiencia: Experiencia,
         descricao: descricao,
+        localizacao: localizacao,
+        setor: setor,
         uid: "gnxZyjqSPmXCmzqFlv0001JL1T92",
         createdAt: new Date(),
       };
@@ -94,7 +98,7 @@ export default function Create_vaga() {
         <TextInput
           value={descricao}
           onChangeText={setDescricao}
-          placeholder="Escreva aquicsua descrição da vaga"
+          placeholder="Escreva aqui sua descrição da vaga"
           placeholderTextColor="#888"
           multiline={true} // Permite várias linhas
           numberOfLines={4} // Sugere um tamanho inicial
@@ -133,6 +137,12 @@ export default function Create_vaga() {
         placeholder="Salário"
         style={styles.textInput}
       />
+      <TextInput
+        value={localizacao}
+        onChangeText={setLocalizacao}
+        placeholder="Localização"
+        style={styles.textInput}
+      />
       <Picker
         selectedValue={selectedOption}
         onValueChange={setSelectedOption}
@@ -143,6 +153,23 @@ export default function Create_vaga() {
         <Picker.Item label="Híbrido" value="Hibrido" />
         <Picker.Item label="Home-office" value="Home-office" />
       </Picker>
+      <Picker
+        selectedValue={setor}
+        onValueChange={setSetor}
+        style={styles.picker}
+      >
+        <Picker.Item label="Selecione uma modalidade" value="" />
+        <Picker.Item label="Tecnologia da Informação" value="TI" /> 
+        <Picker.Item label="Saúde" value="Saude" /> 
+        <Picker.Item label="Educação" value="Educacao" /> 
+        <Picker.Item label="Vendas" value="Vendas" /> 
+        <Picker.Item label="Marketing" value="Marketing" /> 
+        <Picker.Item label="Engenharia" value="Engenharia" /> 
+        <Picker.Item label="Finanças" value="Financas" /> 
+        <Picker.Item label="Recursos Humanos" value="RH" /> 
+        <Picker.Item label="Logística" value="Logistica" /> 
+        <Picker.Item label="Atendimento ao Cliente" value="Atendimento" />
+      </Picker>
       <TextInput
         value={fone}
         onChangeText={setFone}
@@ -150,9 +177,9 @@ export default function Create_vaga() {
         style={styles.textInput}
       />
       <View style={styles.buttonArea}>
-          <BotãoInicio onPress={() => showHelloScreen()}>
+          <Botão onPress={() => showHelloScreen()}>
             <Text style={styles.textButton}>Continuar</Text>
-          </BotãoInicio>
+          </Botão>
       </View>
     </View>
   );
@@ -204,7 +231,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#242424',
   },
   buttonArea: {
-    top: 210
+    top: 110
   },
   containerAreaText: {
     justifyContent: 'center',

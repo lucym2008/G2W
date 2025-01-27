@@ -1,38 +1,23 @@
 
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, ActivityIndicator, TextInput } from 'react-native';
-import { getDocs, collection, query, where } from 'firebase/firestore';
-import { db } from '@/src/firebase/config';
+import { View, Text, FlatList, StyleSheet, ActivityIndicator, TextInput, Alert } from 'react-native';
 import { colors } from '@/src/COMPONENTS/global';
+import { fetchJobs } from '@/src/firebase/getData';
+import { SearchParams, useGlobalSearchParams } from 'expo-router';
+import { BotãoInicio } from '@/src/COMPONENTS/Botão';
 
 const VagasEmprego = () => {
+  const { coleção, campo, valor } = useGlobalSearchParams(); // Obtém o valor passado da tela anterior Home
+  const dataBox = {coleção, campo, valor}
+
   const [jobs, setJobs] = useState([]);
   const [filteredJobs, setFilteredJobs] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
 
-  const fetchJobs = async () => {
-    try {
-        const q = query(
-          collection(db, "Vagas-trabalho"),
-          where("uid", "==", "gnxZyjqSPmXCmzqFlv0001JL1T92"), // Condição
-        );
-        const querySnapshot = await getDocs(q);  
-      const jobsArray = querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setJobs(jobsArray);
-      setFilteredJobs(jobsArray); // Inicializa com todos os dados
-    } catch (error) {
-      console.error("Erro ao buscar as vagas:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    fetchJobs();
+    const valueData = {setJobs, setFilteredJobs, setLoading }
+    fetchJobs(valueData, dataBox); //Envia a função os valores que vc ecolheu na home como parametros
   }, []);
 
   useEffect(() => {
@@ -58,6 +43,7 @@ const VagasEmprego = () => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.titleTop}> {campo}: {valor}</Text>
       <TextInput
         style={styles.searchBar}
         placeholder="Buscar vagas..."
@@ -66,7 +52,7 @@ const VagasEmprego = () => {
         onChangeText={(text) => setSearchQuery(text)}
       />
       {loading ? (
-        <ActivityIndicator size="large" color={colors.yellow} />
+        <ActivityIndicator size="large" color={colors.amarelo1} />
       ) : (
         <FlatList
           data={filteredJobs}
@@ -74,11 +60,13 @@ const VagasEmprego = () => {
           renderItem={renderItem}
         />
       )}
+
     </View>
   );
 };
 
-export default VagasEmprego;
+export default VagasEmprego
+
 
 const styles = StyleSheet.create({
   container: {
@@ -94,6 +82,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     color: colors.tituloBranco,
     fontSize: 16,
+  },
+  titleTop :{
+    color: colors.tituloBranco,
+    fontSize: 28,
+    marginBottom: 20,
+    fontWeight: "400"
   },
   item: {
     padding: 15,

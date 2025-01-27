@@ -16,7 +16,7 @@ export default function Layout() {
         headerTintColor: "#fff", // Cor do texto no cabeçalho
         headerLeft: ({ canGoBack }) =>
           canGoBack ? ( // Verifica se há uma página anterior
-            <TouchableOpacity onPress={() => router.replace('/(tabs)/dashboard')} style={styles.backButton}>
+            <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
               <Ionicons name="arrow-back" size={24} color="#fff" />
             </TouchableOpacity>
           ) : null, // Não exibe o botão se não houver página anterior

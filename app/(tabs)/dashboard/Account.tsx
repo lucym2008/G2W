@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, StyleSheet, ActivityIndicator, Alert, TouchableOpacity, ScrollView } from 'react-native';
-import { getDocs, query, where, collection} from 'firebase/firestore';
-import { auth, db } from '@/src/firebase/config';
 import { colors } from '@/src/COMPONENTS/global';
+import { userData, userVagas } from '@/src/firebase/getData';
+import { Users, Vagas } from '@/src/firebase/interfaces';
 
 const App = () => {
   const [usersData, setUsersData] = useState([]);
@@ -11,83 +11,13 @@ const App = () => {
   const [filteredVagas, setFilteredUserVagas] = useState([]);
   const [filteredUsersData, setFilteredUsersData] = useState([]);
 
-    // Função para embaralhar os dados
-    function shuffleArray(array) {
-      return array.sort(() => Math.random() - 0.5);
-    }
-
-    const userData = async () => {
-      // Obtenha o usuário autenticado
-      const user = auth.currentUser; 
-      if (!user) { //caso ele n esteja registrado
-        return;
-      }; const id = user.uid; //pega o id do usu
-      try {
-        const q = query(
-          collection(db, "Contas"),
-          where("id", "==", id), // Condição
-        );
-        const querySnapshot = await getDocs(q);      
-        const UsersDataArray = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-     // Embaralhar os dados
-      const shuffledJobs = shuffleArray(UsersDataArray);
-        setFilteredUsersData(shuffledJobs); // Inicializa com todos os dados
-      } catch (error) {
-        console.error("Erro vc não esta logado:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    const userVagas = async () => {
-        const user = auth.currentUser; 
-        if (!user) { //caso ele n esteja registrado
-            console.log("Usuario não logado");
-            return
-        };  const uid = user.uid; //pega o id do usu  
-
-      try {
-        const q = query(
-          collection(db, "Vagas-trabalho"),
-          where("uid", "==", uid), // Condição
-        );
-        const querySnapshot = await getDocs(q);      
-        const UsersVagasArray = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setUserVaga(UsersVagasArray);
-        setFilteredUserVagas(UsersVagasArray); // Inicializa com todos os dados
-      } catch (error) {
-        console.error("Erro vc não esta logado:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
   
-    useEffect(() => {
-      userData();
-      userVagas();
-    }, []);
-  
-    interface Users{     //SERVE PARA PASSAR OS PARAMETROS DE CADA ITEM PARA A FLAT-LIST
-      displayName: string,
-      setor: string,
-      tipo: string,
-      email: string,
-      localizacao: string,
-      foto: string
-    }; 
-    interface Vagas{     //SERVE PARA PASSAR OS PARAMETROS DE CADA ITEM PARA A FLAT-LIST
-      name: string,
-      salario: string,
-      modalidades: string,
-      fone: number,
-      empresa: string,
-      Experiencia: string
-    }; 
+  useEffect(() => {
+    const userDadosConst = {setFilteredUsersData,setUsersData, setLoading};
+    userData(userDadosConst);
+    const userVagasConst = {setUserVaga, setFilteredUserVagas, setLoading};
+    userVagas(userVagasConst);  
+  }, []);
 
     const renderItem = ({ item } : {item: Users}) => (
       <View>
@@ -106,7 +36,6 @@ const App = () => {
       </View>
   );
     const renderItemVagas = ({ item } : {item: Vagas}) => (
-    
     <View style={stylesVagas.item}>
       <Text style={stylesVagas.title}>{item.name}</Text>
       <Text style={stylesVagas.text}>Empresa: {item.empresa}</Text>
@@ -212,8 +141,6 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
 });
-
-
 const stylesVagas = StyleSheet.create({
   AreaVagasView: {
     padding: 20,

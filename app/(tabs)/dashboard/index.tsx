@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, ActivityIndicator, ScrollView } from 'react-native';
-import { getDocs, collection, query, where, limit } from 'firebase/firestore';
-import { db } from '@/src/firebase/config';
+import { View, Text, FlatList, StyleSheet, ActivityIndicator, ScrollView, Button, TouchableOpacity } from 'react-native';
 import { colors } from '@/src/COMPONENTS/global';
 import { Botão, BotãoInicio } from '@/src/COMPONENTS/Botão';
 import { useRouter } from 'expo-router';
-import Job from '@/src/firebase/interface';
-import getVagas from '@/src/firebase/getData';
+import { getVagas } from '@/src/firebase/getData';
+import { height, Vagas, width } from '@/src/firebase/interfaces';
 
 const Index = () => {
   const [jobs, setJobs] = useState([]);
@@ -14,19 +12,18 @@ const Index = () => {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  const EnterVagas = () => {
-    router.replace('/(tabs)/Works/VagasEmprego');
+  //Essa função ela envia atraves das telas "router.push" os valores q vc selecionou ao clicar na box
+  const boxSetores = (coleção: any, campo: any, valor: any) => {
+    router.push(`/(tabs)/Works/VagasEmprego?coleção=${coleção}&campo=${campo}&valor=${valor}`); // Passa ambos os valores como parâmetros
   };
   const CriarVagas = () => {
     router.replace('/(tabs)/Works/criarVaga');
   };
-
   useEffect(() => {
     const DadosJobs = {setJobs, setFilteredJobs, setLoading }
     getVagas(DadosJobs);
   }, []);
-
-  const renderItem = ({ item }: {item: Job}) => (
+  const renderItem = ({ item }: {item: Vagas}) => (
     <View style={stylesVagas.item}>
       <Text style={stylesVagas.title}>{item.name}</Text>
       <Text style={stylesVagas.text}>Empresa: {item.empresa}</Text>
@@ -38,79 +35,133 @@ const Index = () => {
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scrollArea}>
-        <View style={styles.BoxContainer}>
-          <Text style={styles.vagas}>Você pode navegar sobre vagas de emprego na sua região:</Text>
-          {loading ? (
-            <ActivityIndicator size="large" color={colors.amarelo1} />
-          ) : (
-            <FlatList
-              data={filteredJobs}
-              keyExtractor={(item) => item.id}
-              renderItem={renderItem}
-              scrollEnabled={false} // Previne conflitos de rolagem com o ScrollView
-            />
-          )}
-          <BotãoInicio onPress={EnterVagas}>
-            <Text>Veja mais</Text>
-          </BotãoInicio>
+
+        <View style={styles.AreaTop}>
+          
         </View>
-        <View style={styles.BoxContainer}>
-          <Text style={styles.vagas}>Mais oportunidades para você:</Text>
-          {loading ? (
-            <ActivityIndicator size="large" color={colors.amarelo1} />
-          ) : (
-            <FlatList
-              data={filteredJobs}
-              keyExtractor={(item) => item.id}
-              renderItem={renderItem}
-              scrollEnabled={false} // Previne conflitos de rolagem com o ScrollView
-            />
-          )}
-          <Botão onPress={CriarVagas}>
-            <Text>Veja mais</Text>
-          </Botão>
+        
+        <View style={styles.containerBoxs}>
+            //Area de box para setores
+            <Text style={styles.SubTitle}>Areas de vagas</Text>
+            <View style={styles.AreaContainerEmpresas}>
+
+              <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                  <TouchableOpacity style={styles.BoxContainerEmpresas} onPress={
+                    //Ao clicar no box, vc envia a função boxSetores um 3 valores para servir na busca da pesquisa q vc clicou
+                    () => boxSetores('Vagas-trabalho', 'setor', 'Saude')
+                  }>
+                    <Text style={styles.BoxContainerEmpresas_text}>Saúde</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.BoxContainerEmpresas} onPress={() => boxSetores('Vagas-trabalho', 'setor', 'TI')}>
+                    <Text style={styles.BoxContainerEmpresas_text}>TI</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.BoxContainerEmpresas} onPress={() => boxSetores('Vagas-trabalho', 'setor', 'Engenharia')}>
+                    <Text style={styles.BoxContainerEmpresas_text}>Engenharia</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.BoxContainerEmpresas} onPress={() => boxSetores('Vagas-trabalho', 'setor', 'Engenharia')}>
+                    <Text style={styles.BoxContainerEmpresas_text}>Engenharia</Text>
+                  </TouchableOpacity>
+              </ScrollView>
+            </View>
+
+            <View style={styles.BoxContainer}>
+              <Text style={styles.SubTitle}>Você pode navegar sobre vagas de emprego na sua região:</Text>
+              {loading ? (
+                <ActivityIndicator size="large" color={colors.amarelo1} />
+              ) : (
+                <FlatList
+                  data={filteredJobs}
+                  keyExtractor={(item) => item.id}
+                  renderItem={renderItem}
+                  scrollEnabled={false} // Previne conflitos de rolagem com o ScrollView
+                />
+              )}
+              <Botão onPress={CriarVagas}>
+                <Text>Veja mais</Text>
+              </Botão>
+            </View>
+            <View style={styles.BoxContainer}>
+              <Text style={styles.SubTitle}>Mais oportunidades para você:</Text>
+              {loading ? (
+                <ActivityIndicator size="large" color={colors.amarelo1} />
+              ) : (
+                <FlatList
+                  data={filteredJobs}
+                  keyExtractor={(item) => item.id}
+                  renderItem={renderItem}
+                  scrollEnabled={false} // Previne conflitos de rolagem com o ScrollView
+                />
+              )}
+              <Botão onPress={CriarVagas}>
+                <Text>Veja mais</Text>
+              </Botão>
+            </View>
+
         </View>
       </ScrollView>
     </View>
-  );
+  );;
 };
-
 export default Index;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
     backgroundColor: colors.fundo,
-  },
-  Title: {
-    fontSize: 35,
-    color: colors.amarelo1,
-  },
-  SubTitle: {    
-    fontSize: 19,
-    marginTop: 10,
-    color: colors.tituloBranco,
-  },
-  vagas: {
-    fontSize: 17,
-    color: colors.tituloBranco,
-  },
-  BoxContainer: {
-    width: "100%",
-    marginTop: 10,
-    borderRadius: 8,
-    marginBottom: 20
   },
   scrollArea: {
     flex: 1,
     marginTop: 10,
   },
+  AreaTop:{
+    width: width*1,
+    height: height * 0.22,
+    borderBottomLeftRadius: 100,
+    backgroundColor: colors.fundo2
+  },
+  containerBoxs: {
+    padding: 15,
+    width: width*1,
+    height: height * 1,
+    marginTop: 10,
+  },
+  BoxContainer: {
+    width: "100%",
+    marginTop: 20,
+    borderRadius: 8,
+    marginBottom: 20
+  },
+  SubTitle: {
+    fontSize: 17,
+    color: colors.tituloBranco,
+  },
+  AreaContainerEmpresas: {
+    width: "100%",
+    maxHeight: 120,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  BoxContainerEmpresas: {
+    width: 100,
+    height: 90,
+    backgroundColor: colors.cinza,
+    borderRadius: 5,
+    marginLeft: 10,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  BoxContainerEmpresas_text: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: colors.tituloAmarelo
+  },
+
 });
 
 const stylesVagas = StyleSheet.create({
   item: {
-    padding: 5,
+    padding: 7,
     marginVertical: 8,
     backgroundColor: colors.cinza,
     borderRadius: 8,
@@ -123,12 +174,12 @@ const stylesVagas = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    left: 40,
+    left: 20,
     color: colors.tituloAmarelo,
   },
   text: {
     fontSize: 16,
-    left: 50,
+    left: 40,
     color: colors.tituloBranco,
   },
 });

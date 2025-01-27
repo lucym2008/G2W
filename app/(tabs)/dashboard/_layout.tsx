@@ -26,27 +26,17 @@ screenOptions={{
           backgroundColor: 'white', // cor de fundo da tab
           elevation: 10, // sombra (para Android)
         },
+
         // tabBarShowLabel: false, // opcional: para esconder os labels das tabs
       }}
         >
             <Tabs.Screen 
             name="index" 
             options={{ 
-                // headerShown: false, 
-                title: "",
-                headerTitleStyle: {
-                   color: "#fff"
-                },
-                headerStyle: {
-                    backgroundColor: '#242420', // Cor de fundo do header (azul)
-                  },            
+                headerShown: false,           
                 tabBarLabelStyle: { 
                    fontSize: 12, // ajuste o tamanho da fonte aqui
                    fontWeight: 'bold', // opcional: para deixar o texto em negrito
-                },
-                tabBarIcon: ({ size, color, focused }) => {
-                    return <FontAwesome name='home' color={color} size={33} top={5}/>
-                    
                 },
             }}
         />  

@@ -7,6 +7,7 @@ export default function Layout() {
             {/* STACK DA PÁGINA PRINCIPAL */}
             <Stack.Screen name="index" options={{ headerShown:false}}/>
             <Stack.Screen name="Login" options={{ headerShown:false}}/>
+            <Stack.Screen name="Criar" options={{ headerShown:false}}/>
             {/* STACK DA PÁGINA COM TABBAR */}
             <Stack.Screen name="(tabs)" options={{ headerShown:false}}/>      
         </Stack>

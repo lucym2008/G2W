@@ -5,8 +5,6 @@ import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'; // Para u
 import { db } from '@/src/firebase/config';
 import { colors } from '@/src/COMPONENTS/global';
 
-const { width, height } = Dimensions.get('window');
-
 export default function Cursos() {
   const [jobs, setJobs] = useState([]);
   const [currentJobIndex, setCurrentJobIndex] = useState(0); // Índice do cartão atual
@@ -28,9 +26,6 @@ export default function Cursos() {
       setLoading(false);
     }
   };
-  useEffect(() => {
-    fetchJobs();
-  }, []);
   // Função chamada ao gostar da vaga
   const handleLike = () => {
     if (currentJobIndex < jobs.length) {
