@@ -36,3 +36,19 @@ export function BotãoInicio({ ...rest }: TouchableOpacityProps) {
   )
 }
 
+export function BotãoRedondo({ ...rest }: TouchableOpacityProps) {
+  return (
+    <TouchableOpacity
+      style={{
+        width: 60,
+        height: 60,
+        backgroundColor: colors.amarelo1,
+        borderRadius: 100,
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+      {...rest}
+    />
+  )
+}
+

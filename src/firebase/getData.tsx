@@ -104,7 +104,7 @@ export const userVagas = async (userVagasConst: any) => {
     try {
         const q = query(
             collection(db, "Vagas-trabalho"),
-            where("uid", "==", Verfication()), // Condição
+            where("uid", "==", "gnxZyjqSPmXCmzqFlv0001JL1T92"), // Condição
         );
         const querySnapshot = await getDocs(q);      
         const UsersVagasArray = querySnapshot.docs.map(doc => ({
@@ -125,7 +125,7 @@ export const userData = async (userDadosConst: any) => {
     try {
         const q = query(
         collection(db, "Contas"),
-        where("id", "==", Verfication()), // Condição
+        where("id", "==", "gnxZyjqSPmXCmzqFlv0001JL1T92"), // Condição
         );
         const querySnapshot = await getDocs(q);      
         const UsersDataArray = querySnapshot.docs.map(doc => ({

@@ -15,7 +15,10 @@ export interface Vagas{     //SERVE PARA PASSAR OS PARAMETROS DE CADA ITEM PARA 
     modalidades: string,
     fone: number,
     empresa: string,
-    Experiencia: string
+    Experiencia: string,
+    Competecias: string,
+    descricao: string,
 }; 
 
 export const { width, height } = Dimensions.get('window');
+
