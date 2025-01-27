@@ -23,6 +23,8 @@ export default function Create_vaga() {
   const [selectedOption, setSelectedOption] = useState('');
   const [showHello, setShowHello] = useState(false); // Controle para alternar entre as funções
 
+  const [areaCode, setAreaCode] = useState('(11) '); // Código de área fixo
+
   // Função chamada pelo botão
   async function Create() {
     if (!salario || isNaN(Number(salario))) {
@@ -170,12 +172,20 @@ export default function Create_vaga() {
         <Picker.Item label="Logística" value="Logistica" /> 
         <Picker.Item label="Atendimento ao Cliente" value="Atendimento" />
       </Picker>
+      <View style={styles.containerFone}>
       <TextInput
-        value={fone}
+        value={areaCode} // Código de área fixo
+        editable={false} // Não permite edição
+        style={styles.areaCodeInput}
+      />
+      <TextInput
+        value={fone} // Número do telefone que o usuário pode editar
         onChangeText={setFone}
         placeholder="Número de telefone"
-        style={styles.textInput}
+        keyboardType="numeric" // Exibe o teclado numérico
+        style={styles.phoneInput}
       />
+    </View>
       <View style={styles.buttonArea}>
           <Botão onPress={() => showHelloScreen()}>
             <Text style={styles.textButton}>Continuar</Text>
@@ -248,5 +258,23 @@ const styles = StyleSheet.create({
     textAlignVertical: 'top',
     fontSize: 16,
     color: '#333',
+  },
+
+  containerFone: {
+    flexDirection: 'row', // Alinha os inputs horizontalmente
+    alignItems: 'center',
+  },
+  areaCodeInput: {
+    height: 50,
+    backgroundColor: '#f5f5f5',
+    paddingHorizontal: 10,
+    marginRight: 5, // Espaço entre os inputs
+    width: 80, // Largura fixa para o código de área
+  },
+  phoneInput: {
+    height: 50,
+    backgroundColor: '#f5f5f5',
+    paddingHorizontal: 10,
+    flex: 1, // O número do telefone ocupa o restante do espaço
   },
 });

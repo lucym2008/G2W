@@ -43,7 +43,7 @@ const VagasEmprego = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.titleTop}> {campo}: {valor}</Text>
+      <Text style={styles.titleTop}> {campo} : {valor}</Text>
       <TextInput
         style={styles.searchBar}
         placeholder="Buscar vagas..."
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
   },
   titleTop :{
     color: colors.tituloBranco,
-    fontSize: 28,
+    fontSize: 35,
     marginBottom: 20,
     fontWeight: "400"
   },

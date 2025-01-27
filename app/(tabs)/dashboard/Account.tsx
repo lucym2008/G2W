@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, StyleSheet, ActivityIndicator, Alert, TouchableOpacity, ScrollView } from 'react-native';
 import { colors } from '@/src/COMPONENTS/global';
 import { userData, userVagas } from '@/src/firebase/getData';
-import { Users, Vagas } from '@/src/firebase/interfaces';
+import { height, Users, Vagas, width } from '@/src/firebase/interfaces';
 
 const App = () => {
   const [usersData, setUsersData] = useState([]);
@@ -20,21 +20,21 @@ const App = () => {
   }, []);
 
     const renderItem = ({ item } : {item: Users}) => (
-      <View>
-        <Text style={styles.foto}>{item.foto}</Text>
-        <Text style={styles.subTitle}>Usuario - {item.tipo}</Text>
+    <View>
+      <View style={styles.areaTop}>
         <Text style={styles.title}>{item.displayName}</Text>
-        <View style={{top: -120}}>
-        <Text style={styles.sub}>Informações da conta:</Text>
-        <Text style={styles.text}>Setor: {item.setor}</Text>
-        <Text style={styles.text}>Tipo de conta: {item.tipo}</Text>
-        <Text style={styles.text}>Localização: {item.localizacao}</Text>
-        <Text style={styles.text}>Contato: {item.email}</Text>
-        </View>
-        <View style={styles.botões}>
-        </View>
+        <Text style={styles.subTitle}>Usuario - {item.tipo}</Text>
       </View>
+      <View style={styles.areaLow}>
+            <Text style={styles.sub}>Informações da conta:</Text>
+            <Text style={styles.text}>Setor: {item.setor}</Text>
+            <Text style={styles.text}>Tipo de conta: {item.tipo}</Text>
+            <Text style={styles.text}>Localização: {item.localizacao}</Text>
+            <Text style={styles.text}>Contato: {item.email}</Text>
+        </View>
+    </View>
   );
+
     const renderItemVagas = ({ item } : {item: Vagas}) => (
     <View style={stylesVagas.item}>
       <Text style={stylesVagas.title}>{item.name}</Text>
@@ -83,64 +83,44 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.fundo,
   },
-  Box: {
-    backgroundColor: colors.amarelo1,
-    width: 400,
-    height: 185,
+  areaTop: {
+    backgroundColor: colors.fundo2,
+    width: "100%",
+    height: height * 0.20,
     alignItems: "center",
-    textAlign: "center"
-  },  
-  foto:{
-    marginTop: 40,
-    width: 140,
-    height: 140,
-    borderRadius: 100,
-    marginLeft: 20,
-    backgroundColor: "white"
-  },
+    justifyContent: "center"
+  }, 
   title: {
-    fontSize: 35,
+    fontSize: 45,
     fontWeight: 'bold',
-    color: colors.amarelo1,
-    top: -120,
-    marginLeft: 190
+    color: colors.tituloAmarelo,
+    marginBottom: 1,
+    marginTop: 45
   },
   subTitle: {
     fontSize: 20,
-    left: 190,
-    top: -115,
-    color: colors.tituloBranco,
+    color: colors.tituloAmarelo,
+  },
+  areaLow: {
+    width: width * 1,
+    height: height * 0.35,
+    alignItems: "center",
+    backgroundColor: colors.fundo,
   },
   sub: {
     fontSize: 22,
     color: colors.tituloBranco,
-    marginLeft: 20,
-    marginTop: 80,
+    marginTop: 13,
+    marginBottom: 10
   },
   text: {
     fontSize: 17,
     fontWeight: 'bold',
     color: colors.tituloBranco,
-    marginBlock: 1,
-    marginLeft: 20,
-    marginTop: 10
-  },
-
-  botões: {
-    width: "100%",
-    height: 80,
-    top: 230,
-    // backgroundColor: "white"
-    flexDirection: "row"
-  },
-  Botão: {
-    width: "33%",
-    height: "100%",
-    // backgroundColor: "white",
-    alignItems: "center",
-    justifyContent: "center"
+    marginBlock: 3,
   },
 });
+
 const stylesVagas = StyleSheet.create({
   AreaVagasView: {
     padding: 20,

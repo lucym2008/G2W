@@ -5,7 +5,7 @@ import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'; // Para u
 import { db } from '@/src/firebase/config';
 import { colors } from '@/src/COMPONENTS/global';
 
-export default function Cursos() {
+const Cursos  = () => {
   const [jobs, setJobs] = useState([]);
   const [currentJobIndex, setCurrentJobIndex] = useState(0); // Índice do cartão atual
   const [loading, setLoading] = useState(true);
@@ -106,6 +106,8 @@ export default function Cursos() {
     </View>
   );
 }
+
+export default Cursos;
 
 const styles = StyleSheet.create({
   container: {

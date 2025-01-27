@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, StyleSheet, ActivityIndicator, ScrollView, Button, TouchableOpacity } from 'react-native';
 import { colors } from '@/src/COMPONENTS/global';
-import { Botão, BotãoInicio } from '@/src/COMPONENTS/Botão';
+import { Botão, BotãoInicio, BotãoRedondo } from '@/src/COMPONENTS/Botão';
 import { useRouter } from 'expo-router';
 import { getVagas } from '@/src/firebase/getData';
 import { height, Vagas, width } from '@/src/firebase/interfaces';
+import { AntDesign, Feather, FontAwesome6, MaterialIcons } from '@expo/vector-icons';
 
 const Index = () => {
   const [jobs, setJobs] = useState([]);
@@ -28,7 +29,9 @@ const Index = () => {
       <Text style={stylesVagas.title}>{item.name}</Text>
       <Text style={stylesVagas.text}>Empresa: {item.empresa}</Text>
       <Text style={stylesVagas.text}>Salário: R$ {item.salario}</Text>
+      <Text style={stylesVagas.text}>descrição da vaga: {item.descricao}</Text>      
       <Text style={stylesVagas.text}>Contato: {item.fone}</Text>
+      <Text style={stylesVagas.text}>Modalidade de trabalho: {item.modalidades}</Text>
     </View>
   );
 
@@ -50,22 +53,26 @@ const Index = () => {
                     //Ao clicar no box, vc envia a função boxSetores um 3 valores para servir na busca da pesquisa q vc clicou
                     () => boxSetores('Vagas-trabalho', 'setor', 'Saude')
                   }>
+                    <MaterialIcons name="health-and-safety" size={27} color={colors.amarelo1} />
                     <Text style={styles.BoxContainerEmpresas_text}>Saúde</Text>
                   </TouchableOpacity>
                   <TouchableOpacity style={styles.BoxContainerEmpresas} onPress={() => boxSetores('Vagas-trabalho', 'setor', 'TI')}>
+                    <MaterialIcons name="computer" size={27} color={colors.amarelo1} />
                     <Text style={styles.BoxContainerEmpresas_text}>TI</Text>
                   </TouchableOpacity>
                   <TouchableOpacity style={styles.BoxContainerEmpresas} onPress={() => boxSetores('Vagas-trabalho', 'setor', 'Engenharia')}>
+                    <FontAwesome6 name="house-chimney" size={22} color={colors.amarelo1} />
                     <Text style={styles.BoxContainerEmpresas_text}>Engenharia</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.BoxContainerEmpresas} onPress={() => boxSetores('Vagas-trabalho', 'setor', 'Engenharia')}>
-                    <Text style={styles.BoxContainerEmpresas_text}>Engenharia</Text>
+                  <TouchableOpacity style={styles.BoxContainerEmpresas} onPress={() => boxSetores('Vagas-trabalho', 'setor', 'Educacao')}>
+                    <Feather name="book" size={24} color={colors.amarelo1} />
+                    <Text style={styles.BoxContainerEmpresas_text}>Educação</Text>
                   </TouchableOpacity>
               </ScrollView>
             </View>
 
             <View style={styles.BoxContainer}>
-              <Text style={styles.SubTitle}>Você pode navegar sobre vagas de emprego na sua região:</Text>
+              <Text style={styles.SubTitle}>Vagas na sua região:</Text>
               {loading ? (
                 <ActivityIndicator size="large" color={colors.amarelo1} />
               ) : (
@@ -76,9 +83,11 @@ const Index = () => {
                   scrollEnabled={false} // Previne conflitos de rolagem com o ScrollView
                 />
               )}
-              <Botão onPress={CriarVagas}>
-                <Text>Veja mais</Text>
-              </Botão>
+              <View style={styles.areaButton}>
+                  <BotãoRedondo onPress={CriarVagas}>
+                      <AntDesign name="arrowright" size={30} color={colors.preto} />
+                  </BotãoRedondo>
+              </View>
             </View>
             <View style={styles.BoxContainer}>
               <Text style={styles.SubTitle}>Mais oportunidades para você:</Text>
@@ -92,9 +101,9 @@ const Index = () => {
                   scrollEnabled={false} // Previne conflitos de rolagem com o ScrollView
                 />
               )}
-              <Botão onPress={CriarVagas}>
+              <BotãoRedondo onPress={CriarVagas}>
                 <Text>Veja mais</Text>
-              </Botão>
+              </BotãoRedondo>
             </View>
 
         </View>
@@ -121,8 +130,8 @@ const styles = StyleSheet.create({
   },
   containerBoxs: {
     padding: 15,
-    width: width*1,
-    height: height * 1,
+    width: "100%",
+    height: "100%",
     marginTop: 10,
   },
   BoxContainer: {
@@ -133,6 +142,7 @@ const styles = StyleSheet.create({
   },
   SubTitle: {
     fontSize: 17,
+    left: 20,
     color: colors.tituloBranco,
   },
   AreaContainerEmpresas: {
@@ -140,6 +150,7 @@ const styles = StyleSheet.create({
     maxHeight: 120,
     flexDirection: "row",
     alignItems: "center",
+    marginTop: 5,
     justifyContent: "center"
   },
   BoxContainerEmpresas: {
@@ -156,7 +167,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: colors.tituloAmarelo
   },
-
+  areaButton: {
+    width: width * 0.84,
+    height: 80,
+    justifyContent: "center",
+    alignItems: "flex-end"
+  },
 });
 
 const stylesVagas = StyleSheet.create({
@@ -170,16 +186,16 @@ const stylesVagas = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 4,
     elevation: 3,
+    alignItems: "center"
   },
   title: {
-    fontSize: 24,
+    fontSize: 30,
+    marginBottom: 2,
     fontWeight: 'bold',
-    left: 20,
     color: colors.tituloAmarelo,
   },
   text: {
     fontSize: 16,
-    left: 40,
     color: colors.tituloBranco,
   },
 });
