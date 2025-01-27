@@ -1,4 +1,5 @@
 import { TextInput, TextInputProps } from "react-native"
+import { colors } from "./global"
 
 export function InputWhite({ ...rest }: TextInputProps) {
   return (
@@ -25,14 +26,14 @@ export function TxtInput({ ...rest }: TextInputProps) {
     <TextInput
       style={{
         width: '100%',
-        height: 50,
-        paddingLeft: 20,
-        color: "#000",
-        borderColor: '#000',
-        borderWidth: 1,
+        height: 55,
+        paddingLeft: 30,
+        color: colors.preto,
+        borderColor: colors.preto,
+        borderWidth: 1.2,
         borderRadius: 5,
-        paddingHorizontal: 0,
         fontSize: 16,
+        marginBottom: 30
       }}
       {...rest}
     />

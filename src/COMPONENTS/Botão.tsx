@@ -23,11 +23,13 @@ export function BotãoInicio({ ...rest }: TouchableOpacityProps) {
   return (
     <TouchableOpacity
       style={{
-        height: 60,
-        backgroundColor: colors.amarelo1,
+        width: '90%',
+        height: 70,
+        backgroundColor: colors.tituloBranco,
         borderRadius: 10,
         justifyContent: "center",
         alignItems: "center",
+        marginTop: 15
       }}
       {...rest}
     />
