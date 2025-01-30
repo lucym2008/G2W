@@ -115,8 +115,7 @@ export default function Create_vaga() {
       </View>
     </View>
     );
-  }
-
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.title}>CRIE SUA PROPRIA VAGA</Text>

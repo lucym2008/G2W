@@ -1,80 +1,108 @@
 // 'PAGINA INICIAL'
-import React, { useState } from 'react';
-import { Text, View, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import { Link, useRouter } from 'expo-router'; //TENTANDO FAZER A NAVEGAÇÃO
+import React, { useEffect, useRef, useState } from 'react';
+import { Text, View, StyleSheet, Animated, ActivityIndicator } from 'react-native';
+import { Link, useRouter } from 'expo-router'; // TENTANDO FAZER A NAVEGAÇÃO
 import { colors } from '../src/COMPONENTS/global';
-import { BotãoInicio } from '../src/COMPONENTS/Botão'
+import { BotãoInicio } from '../src/COMPONENTS/Botão';
 import { Dimensions } from 'react-native';
 
-//DIMENSÕES DA TELA Q CONVERSAMOS
+// DIMENSÕES DA TELA Q CONVERSAMOS
 const { width, height } = Dimensions.get('window');
 
+export default function StartPage() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(true); // Estado para controlar a tela de carregamento
 
-export default function Index() {
-  const router = useRouter(); // Hook para navegação
-  const [displayName, setDisplayName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [setor, setSetor] = useState('');
-  const [tipo, setTipo] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const handleLoginPress = () => router.replace('/Login');
+  const handleCreateAccountPress = () => router.replace('/Criar');
 
-  function Login() {
-    router.replace('/Login')
-  }
-  function Criar() {
-    router.replace('/Criar')
+  // Efeito para animar a entrada ao montar o componente
+    useEffect(() => {
+    // Simula um carregamento
+    const loadData = async () => {
+      // Simule um atraso para a tela de carregamento
+      await new Promise(resolve => setTimeout(resolve, 4000)); // 2 segundos
+      setLoading(false); // Oculta a tela de carregamento
+    }; loadData();
+    })
+
+
+  if (loading) {
+    // Tela de carregamento
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color={colors.amarelo1} />
+        <Text style={styles.loadingText}>Carregando...</Text>
+      </View>
+    );
   }
 
   return (
-    <View style={Start.container}>
-      <View style={Start.boxTop}>
+    <View style={styles.container}>
+      <View style={styles.topContainer}></View>
 
-      </View>
-      <View style={Start.card}>
-
-          <BotãoInicio onPress={Login}>
-            <Text style={Start.btnText}>
+      <View style={styles.bottomContainer}>
+        <View style={styles.areaButton}>
+          <BotãoInicio onPress={handleLoginPress}>
+            <Text style={styles.buttonText}>
               Entre na sua conta              
             </Text>
           </BotãoInicio>
-
-          <BotãoInicio onPress={Criar}>
-            <Text style={Start.btnText}>
+          <BotãoInicio onPress={handleCreateAccountPress}>
+            <Text style={styles.buttonText}>
               Crie sua conta
             </Text>
           </BotãoInicio>
-
-          //Botão Entrada gratuita
-          <Link href={'/dashboard'} style={Start.textlink}>
-            Entrar em uma conta
-          </Link>
         </View>
 
+        <Link href={'/dashboard'} style={styles.linkText}>
+          Entrar em uma conta
+        </Link>
       </View>
+    </View>
   );
 }
 
-const Start = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: "center",
-    backgroundColor: "#242424"
+    justifyContent: 'center',
+    backgroundColor: '#242424'
   },
-  boxTop: {
-    height: height * 0.4
+  loadingContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#242424'
   },
-  card:{
-    width: width * 0.9,
-    height: height * 0.4,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: colors.amarelo1,
-    borderRadius: 30,
-  },
-  btnText:{
-    color: colors.preto,
+  loadingText: {
+    color: '#fff',
+    marginTop: 10,
     fontSize: 18,
   },
-})
+  topContainer: {
+    height: height * 0.6
+  },
+  bottomContainer: {
+    width: width * 1,
+    height: height * 0.4,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  areaButton: {
+    width: width * 1,
+    height: 180,
+    justifyContent: 'space-around',
+    alignItems: 'center'
+  },
+  buttonText: {
+    fontSize: 20,
+    color: colors.preto,
+  },
+  linkText: {
+    fontSize: 18,
+    color: '#fff',
+    marginTop: 10
+  }
+});

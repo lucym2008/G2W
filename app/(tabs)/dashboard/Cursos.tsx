@@ -1,11 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Dimensions, ActivityIndicator, Alert, TouchableOpacity, ScrollView } from 'react-native';
 import { collection, getDocs } from 'firebase/firestore';
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'; // Para usar ícones de setas
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'; 
 import { db } from '@/src/firebase/config';
 import { colors } from '@/src/COMPONENTS/global';
 
-const Cursos  = () => {
+const { width, height } = Dimensions.get('window');
+
+const Cursos = () => {
   const [jobs, setJobs] = useState([]);
   const [currentJobIndex, setCurrentJobIndex] = useState(0); // Índice do cartão atual
   const [loading, setLoading] = useState(true);
@@ -18,7 +20,8 @@ const Cursos  = () => {
         id: doc.id,
         ...doc.data(),
       }));
-      setJobs(jobsArray);
+      setJobs(jobsArray); // Atualiza o estado com todas as vagas
+      setCurrentJobIndex(0); // Inicia no primeiro trabalho
     } catch (error) {
       console.error('Erro ao buscar vagas:', error);
       Alert.alert('Erro', 'Não foi possível carregar as vagas.');
@@ -26,6 +29,7 @@ const Cursos  = () => {
       setLoading(false);
     }
   };
+
   // Função chamada ao gostar da vaga
   const handleLike = () => {
     if (currentJobIndex < jobs.length) {
@@ -35,6 +39,7 @@ const Cursos  = () => {
       nextJob(); // Vai para o próximo cartão
     }
   };
+
   // Função chamada ao não gostar da vaga
   const handleDislike = () => {
     if (currentJobIndex < jobs.length) {
@@ -44,6 +49,7 @@ const Cursos  = () => {
       nextJob(); // Vai para o próximo cartão
     }
   };
+
   // Função para ir para o próximo cartão
   const nextJob = () => {
     if (currentJobIndex < jobs.length - 1) {
@@ -52,6 +58,12 @@ const Cursos  = () => {
       Alert.alert('Fim', 'Você já viu todas as vagas disponíveis.');
     }
   };
+
+  // Carregar as vagas ao iniciar
+  useEffect(() => {
+    fetchJobs();
+  }, []);
+
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
@@ -69,43 +81,43 @@ const Cursos  = () => {
 
   return (
     <View style={styles.container}>
-    <ScrollView>
-      <View style={styles.card}>
-        <Text style={styles.title}>{currentJob.name}</Text>
-        <Text style={styles.description}>{currentJob.empresa}</Text>
-        <Text style={styles.mode}>Salário: R$ {currentJob.salario}</Text>
-        <Text style={styles.mode}>Modalidade: {currentJob.modalidades}</Text>
-        <Text style={styles.mode}>Experien: {currentJob.Experiencia}</Text>
-        <Text style={styles.mode}>Competençias: {currentJob.Competencias}</Text>
-        <Text style={styles.mode}>Modalidade: {currentJob.selectedOption}</Text>
-        <Text style={styles.mode}>Contato: {currentJob.fone}</Text>
-      {/* Botões para controle */}
-      <View style={styles.buttonsContainer}>
-        <TouchableOpacity
-          style={[styles.button, styles.dislikeButton]}
-          onPress={handleDislike} // Não gostou
-        >
-          <Ionicons name="arrow-back" size={30} color="white" />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.button]}
-          onPress={handleLike} // Gostou
-        >
-          <MaterialCommunityIcons name="information-outline" size={45} color="white" top={20} />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.button, styles.likeButton]}
-          onPress={handleLike} // Gostou
-        >
-          <Ionicons name="arrow-forward" size={30} color="white" />
-        </TouchableOpacity>
-      </View>
-      </View>
-      
-    </ScrollView>
+      <ScrollView>
+        <View style={styles.card}>
+          <Text style={styles.title}>{currentJob.name}</Text>
+          <Text style={styles.description}>{currentJob.empresa}</Text>
+          <Text style={styles.mode}>Salário: R$ {currentJob.salario}</Text>
+          <Text style={styles.mode}>Modalidade: {currentJob.modalidades}</Text>
+          <Text style={styles.mode}>Experiência: {currentJob.Experiencia}</Text>
+          <Text style={styles.mode}>Competências: {currentJob.Competencias}</Text>
+          <Text style={styles.mode}>Modalidade: {currentJob.selectedOption}</Text>
+          <Text style={styles.mode}>Contato: {currentJob.fone}</Text>
+
+          {/* Botões para controle */}
+          <View style={styles.buttonsContainer}>
+            <TouchableOpacity
+              style={[styles.button, styles.dislikeButton]}
+              onPress={handleDislike} // Não gostou
+            >
+              <Ionicons name="arrow-back" size={30} color="white" />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.button]}
+              onPress={handleLike} // Gostou
+            >
+              <MaterialCommunityIcons name="information-outline" size={45} color="white" top={20} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.button, styles.likeButton]}
+              onPress={handleLike} // Gostou
+            >
+              <Ionicons name="arrow-forward" size={30} color="white" />
+            </TouchableOpacity>
+          </View>
+        </View>
+      </ScrollView>
     </View>
   );
-}
+};
 
 export default Cursos;
 

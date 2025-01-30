@@ -17,8 +17,8 @@ const Index = () => {
   const boxSetores = (coleção: any, campo: any, valor: any) => {
     router.push(`/(tabs)/Works/VagasEmprego?coleção=${coleção}&campo=${campo}&valor=${valor}`); // Passa ambos os valores como parâmetros
   };
-  const CriarVagas = () => {
-    router.replace('/(tabs)/Works/criarVaga');
+  const CriarVagas = (coleçãoUnica: any) => {
+    router.push(`/(tabs)/Works/VagasEmprego?coleção=${coleçãoUnica}`);
   };
   useEffect(() => {
     const DadosJobs = {setJobs, setFilteredJobs, setLoading }
@@ -31,6 +31,7 @@ const Index = () => {
       <Text style={stylesVagas.text}>Salário: R$ {item.salario}</Text>
       <Text style={stylesVagas.text}>descrição da vaga: {item.descricao}</Text>      
       <Text style={stylesVagas.text}>Contato: {item.fone}</Text>
+      <Text style={stylesVagas.text}>Competecias: {item.Competecias}</Text>
       <Text style={stylesVagas.text}>Modalidade de trabalho: {item.modalidades}</Text>
     </View>
   );
@@ -84,7 +85,7 @@ const Index = () => {
                 />
               )}
               <View style={styles.areaButton}>
-                  <BotãoRedondo onPress={CriarVagas}>
+                  <BotãoRedondo onPress={() => CriarVagas('Vagas-trabalho')}>
                       <AntDesign name="arrowright" size={30} color={colors.preto} />
                   </BotãoRedondo>
               </View>
@@ -178,6 +179,7 @@ const styles = StyleSheet.create({
 const stylesVagas = StyleSheet.create({
   item: {
     padding: 7,
+    paddingBottom: 14,
     marginVertical: 8,
     backgroundColor: colors.cinza,
     borderRadius: 8,

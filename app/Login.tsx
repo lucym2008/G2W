@@ -4,8 +4,8 @@ import { Text, View, StyleSheet, Alert, ActivityIndicator } from 'react-native';
 import { useRouter, Link } from 'expo-router';
 import { TxtInput } from '../src/COMPONENTS/Input';
 import { Botão } from '../src/COMPONENTS/Botão';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth, db } from '@/src/firebase/config';
+import { getAuth, sendPasswordResetEmail, signInWithEmailAndPassword } from 'firebase/auth';
+import { app, auth, db } from '@/src/firebase/config';
 import { doc, getDoc } from 'firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { colors } from '@/src/COMPONENTS/global';
@@ -42,6 +42,17 @@ export default function Login() {
       setIsLoading(false);
     }
   };
+  const handleRecovery = () => {
+    const auth = getAuth(app);  // Obtenha a instância do Firebase Auth
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        Alert.alert('Enviado com sucesso!', 'Verifique seu e-mail para redefinir a senha.');
+      })
+      .catch((error) => {
+        console.error('Erro ao enviar o e-mail de redefinição de senha:', error);
+        Alert.alert('Erro', 'Ocorreu um erro ao enviar o e-mail de recuperação.');
+      });
+  };
 
   return (
     <View style={Style.container}>
@@ -61,6 +72,9 @@ export default function Login() {
           value={password}
           onChangeText={setPassword}
         />
+          <Botão activeOpacity={0.8} onPress={handleRecovery}>
+            <Text style={{ fontSize: 18 }}>Recuperar senha</Text>
+          </Botão>
         {isLoading ? (
           <ActivityIndicator size="large" color={colors.amarelo1} />
         ) : (
