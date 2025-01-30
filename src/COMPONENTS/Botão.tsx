@@ -1,17 +1,17 @@
 import { TouchableOpacity, TouchableOpacityProps } from "react-native"
 import { colors } from "./global"
+import { width } from "../firebase/interfaces"
 
 export function Botão({ ...rest }: TouchableOpacityProps) {
   return (
     <TouchableOpacity
       style={{
-        width: '100%',
+        width: width * 1,
         height: 60,
         backgroundColor: colors.amarelo1,
         borderRadius: 5,
         justifyContent: "center",
         alignItems: "center",
-        marginTop: 20
       }}
       {...rest}
     />
@@ -23,13 +23,12 @@ export function BotãoInicio({ ...rest }: TouchableOpacityProps) {
   return (
     <TouchableOpacity
       style={{
-        width: '90%',
-        height: 70,
-        backgroundColor: colors.tituloBranco,
-        borderRadius: 10,
+        width: '75%',
+        height: 60,
+        backgroundColor: colors.amarelo1,
+        borderRadius: 5,
         justifyContent: "center",
         alignItems: "center",
-        marginTop: 15
       }}
       {...rest}
     />

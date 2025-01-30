@@ -74,11 +74,68 @@ export const fetchEmpresas = async (valueData: any) => {
     // />
 
 
-//função da pagina Home q leva os valores a pagina de procura de vagas VagasEmprego
-export const fetchJobs = async (valueData: any, dataBox: any) => {
+
+export const fetchJobs = async (valueData: any, dataBox: any, dataBox2: any) => {
+    const { setJobs, setFilteredJobs, setLoading } = valueData;
+    const { coleção, campo, valor } = dataBox;
+    const { coleçãoUnica } = dataBox2;
+
+    // Coloca o loading como true antes de buscar os dados
+    setLoading(true);
+    try {
+        let q; 
+        // Verifica se 'campo' e 'valor' estão vazios
+        if (!campo || !valor) {
+            // Se os campos estão vazios, faz a query para buscar todas as vagas na coleção "Vagas-trabalho"
+            q = query(collection(db, "Vagas-trabalho"));
+        } else {
+            // Caso contrário, faz a query com filtro na coleção especificada
+            q = query(
+                collection(db, coleção),
+                where(campo, "==", valor)
+            );
+        }
+        // Busca os documentos da query
+        const querySnapshot = await getDocs(q);
+        // Mapeia os documentos retornados para um array
+        const jobsArray = querySnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data(),
+        }));
+        // Atualiza o estado com os resultados
+        setJobs(jobsArray);
+        setFilteredJobs(jobsArray);  // Inicializa com os dados filtrados ou completos
+    } catch (error) {
+        // Caso haja algum erro
+        console.error("Erro ao buscar as vagas:", error);
+    } finally {
+        // Certifica-se de que o loading seja setado como false após a operação
+        setLoading(false);
+    }
+};
+
+
+export const fetchJobs22 = async (valueData: any, dataBox: any, dataBox2: any) => {
     const {setJobs, setFilteredJobs, setLoading} =  valueData;
     const {coleção, campo, valor} = dataBox;
-
+    const { coleçãoUnica } = dataBox2
+    if (!campo || !valor) {
+        try {
+        const q = query(
+            collection(db, "Vagas-trabalho"),
+        );
+        const querySnapshot = await getDocs(q);  
+        const jobsArray = querySnapshot.docs.map(doc => ({
+        id: doc.id, ...doc.data(),
+        }));
+        setJobs(jobsArray);
+        setFilteredJobs(jobsArray); // Inicializa com todos os dados
+    } catch (error) {
+        console.error("Erro ao buscar as vagas:", error);
+    } finally {
+        setLoading(false);
+    }
+    } else {
     try {
         const q = query(
             collection(db, coleção),
@@ -97,8 +154,9 @@ export const fetchJobs = async (valueData: any, dataBox: any) => {
         setLoading(false);
     }
 };
+}
 
-//FUNÇÕES ACCOUNT
+                                       { /*FUNÇÕES ACCOUNT*/ }
 export const userVagas = async (userVagasConst: any) => {
     const {setUserVaga, setFilteredUserVagas, setLoading} = userVagasConst
     try {

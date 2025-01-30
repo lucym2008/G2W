@@ -4,6 +4,7 @@ export const colors = {
     fundo2: "#2E2E2E",
     preto: "#000",
     amarelo1: "#D8CC40",
+    amarelo2: "#ACA465",
     tituloAmarelo: "#ACA465",
     tituloBranco:"#FFF",
     texto: "#ffffff",
