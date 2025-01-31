@@ -59,18 +59,18 @@ const VagasEmprego = () => {
           />
         </View>
       <View style={styles.containerBottom}>
-      <Text style={styles.titleTop}> {campo} : {valor}</Text>
-            {loading ? (
-              <ActivityIndicator size="large" color={colors.amarelo1} />
-            ) : (
-              <FlatList
-                data={filteredJobs}
-                keyExtractor={(item) => item.id}
-                renderItem={renderItem}
-                nestedScrollEnabled={true} // Permite rolar dentro do ScrollView
-                showsHorizontalScrollIndicator={false}
-              />
-            )}
+         <Text style={styles.titleTop}> {campo} {valor}</Text>
+               {loading ? (
+                 <ActivityIndicator size="large" color={colors.amarelo1} />
+               ) : (
+                 <FlatList
+                   data={filteredJobs}
+                   keyExtractor={(item) => item.id}
+                   renderItem={renderItem}
+                   nestedScrollEnabled={true} // Permite rolar dentro do ScrollView
+                   showsVerticalScrollIndicator={false}
+                 />
+               )}
       </View>
       </ScrollView>
     </View>
@@ -104,14 +104,14 @@ const styles = StyleSheet.create({
     backgroundColor: colors.cinza,
     borderRadius: 8,
     paddingHorizontal: 10,
-    marginBottom: 0,
     color: colors.tituloBranco,
     fontSize: 18,
   },
   titleTop :{
     color: colors.tituloBranco,
     fontSize: 35,
-    marginBottom: 20,
+    marginBottom: 10,
+    marginTop: -10,
     fontWeight: "400"
   },
   item: {

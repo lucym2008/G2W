@@ -29,7 +29,7 @@ const App = () => {
             <Text style={styles.sub}>Informações da conta:</Text>
             <Text style={styles.text}>Setor: {item.setor}</Text>
             <Text style={styles.text}>Tipo de conta: {item.tipo}</Text>
-            <Text style={styles.text}>Localização: {item.localizacao}</Text>
+            <Text style={styles.text}>Localização: {item.regiao}</Text>
             <Text style={styles.text}>Contato: {item.email}</Text>
         </View>
     </View>

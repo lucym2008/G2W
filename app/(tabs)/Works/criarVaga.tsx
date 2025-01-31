@@ -17,6 +17,7 @@ export default function Create_vaga() {
   const [setor, setSetor] = useState('');
   const [localizacao, setLocalizacao] = useState('');
   const [name, setName] = useState('');
+  const [tipo, setTipo] = useState('');
   const [empresa, setEmpresa] = useState('');
   const [salario, setSalario] = useState('');
   const [fone, setFone] = useState('');
@@ -48,6 +49,7 @@ export default function Create_vaga() {
         Experiencia: Experiencia,
         descricao: descricao,
         localizacao: localizacao,
+        tipo: tipo,
         setor: setor,
         uid: "gnxZyjqSPmXCmzqFlv0001JL1T92",
         createdAt: new Date(),
@@ -83,6 +85,12 @@ export default function Create_vaga() {
         value={Competencias}
         onChangeText={setCompetencias}
         placeholder="Competençias"
+        style={styles.textInput}
+      />
+      <TextInput
+        value={tipo}
+        onChangeText={setTipo}
+        placeholder="Tipo de vaga"
         style={styles.textInput}
       />
       <Picker

@@ -24,8 +24,10 @@ const Index = () => {
     const DadosJobs = {setJobs, setFilteredJobs, setLoading }
     getVagas(DadosJobs);
   }, []);
+  
   const renderItem = ({ item }: {item: Vagas}) => (
     <View style={stylesVagas.item}>
+
       <Text style={stylesVagas.title}>{item.name}</Text>
       <Text style={stylesVagas.text}>Empresa: {item.empresa}</Text>
       <Text style={stylesVagas.text}>Salário: R$ {item.salario}</Text>
@@ -73,38 +75,46 @@ const Index = () => {
             </View>
 
             <View style={styles.BoxContainer}>
-              <Text style={styles.SubTitle}>Vagas na sua região:</Text>
-              {loading ? (
-                <ActivityIndicator size="large" color={colors.amarelo1} />
-              ) : (
-                <FlatList
-                  data={filteredJobs}
-                  keyExtractor={(item) => item.id}
-                  renderItem={renderItem}
-                  scrollEnabled={false} // Previne conflitos de rolagem com o ScrollView
-                />
-              )}
+              <View style={styles.FlatListBox}>
+                  <Text style={styles.SubTitle}>Vagas na sua região:</Text>
+                  {loading ? (
+                    <ActivityIndicator size="large" color={colors.amarelo1} />
+                  ) : (
+                    <FlatList
+                      data={filteredJobs}
+                      keyExtractor={(item) => item.id}
+                      renderItem={renderItem}
+                      scrollEnabled={false} // Previne conflitos de rolagem com o ScrollView
+                    />
+                  )}
+              </View>
               <View style={styles.areaButton}>
-                  <BotãoRedondo onPress={() => CriarVagas('Vagas-trabalho')}>
+                  <BotãoInicio onPress={() => CriarVagas('Vagas-trabalho')}> /**/
+                      <Text style={styles.TextButton}>Clique aqui para ver mais</Text>
                       <AntDesign name="arrowright" size={30} color={colors.preto} />
-                  </BotãoRedondo>
+                  </BotãoInicio>
               </View>
             </View>
             <View style={styles.BoxContainer}>
-              <Text style={styles.SubTitle}>Mais oportunidades para você:</Text>
-              {loading ? (
-                <ActivityIndicator size="large" color={colors.amarelo1} />
-              ) : (
-                <FlatList
-                  data={filteredJobs}
-                  keyExtractor={(item) => item.id}
-                  renderItem={renderItem}
-                  scrollEnabled={false} // Previne conflitos de rolagem com o ScrollView
-                />
-              )}
-              <BotãoRedondo onPress={CriarVagas}>
-                <Text>Veja mais</Text>
-              </BotãoRedondo>
+              <View style={styles.FlatListBox}>
+                  <Text style={styles.SubTitle}>Vagas na sua região:</Text>
+                  {loading ? (
+                    <ActivityIndicator size="large" color={colors.amarelo1} />
+                  ) : (
+                    <FlatList
+                      data={filteredJobs}
+                      keyExtractor={(item) => item.id}
+                      renderItem={renderItem}
+                      scrollEnabled={false} // Previne conflitos de rolagem com o ScrollView
+                    />
+                  )}
+              </View>
+              <View style={styles.areaButton}>
+                  <BotãoInicio onPress={() => CriarVagas('Vagas-trabalho')}>
+                      <Text style={styles.TextButton}>Clique aqui para ver mais</Text>
+                      <AntDesign name="arrowright" size={30} color={colors.preto} />
+                  </BotãoInicio>
+              </View>
             </View>
 
         </View>
@@ -137,9 +147,14 @@ const styles = StyleSheet.create({
   },
   BoxContainer: {
     width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  FlatListBox: {
+    width: "100%",
     marginTop: 20,
     borderRadius: 8,
-    marginBottom: 20
+    marginBottom: 20 
   },
   SubTitle: {
     fontSize: 17,
@@ -169,11 +184,17 @@ const styles = StyleSheet.create({
     color: colors.tituloAmarelo
   },
   areaButton: {
-    width: width * 0.84,
-    height: 80,
+    width: width * 1,
+    height:60,
+    top: -10,
     justifyContent: "center",
-    alignItems: "flex-end"
+    alignItems: "center",
+    //backgroundColor: "red"
   },
+  TextButton: {
+    fontSize: 15,
+    right: 10
+  }
 });
 
 const stylesVagas = StyleSheet.create({

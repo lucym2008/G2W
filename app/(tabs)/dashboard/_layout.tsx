@@ -33,19 +33,25 @@ screenOptions={{
             <Tabs.Screen 
             name="index" 
             options={{ 
-                headerShown: false,           
+                headerShown: false,  
+                title: "",         
                 tabBarLabelStyle: { 
-                   fontSize: 12, // ajuste o tamanho da fonte aqui
-                   fontWeight: 'bold', // opcional: para deixar o texto em negrito
-                },
+                  fontSize: 12, // ajuste o tamanho da fonte aqui
+                  fontWeight: 'bold', // opcional: para deixar o texto em negrito
+               },
+               tabBarIcon: ({ size, color, focused }) => {
+                   return <MaterialCommunityIcons name='home' color={color} size={33} top={5}/>
+                   
+               },
             }}
+
         />  
 
 
         <Tabs.Screen
-          name="Cursos"
+          name="Visualizações"
           options={{ 
-            // headerShown: false, 
+            headerShown: false, 
             title: "",
             headerTitleStyle: {
                color: "#fff"
