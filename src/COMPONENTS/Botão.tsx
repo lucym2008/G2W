@@ -12,6 +12,7 @@ export function Botão({ ...rest }: TouchableOpacityProps) {
         borderRadius: 5,
         justifyContent: "center",
         alignItems: "center",
+
       }}
       {...rest}
     />
@@ -23,12 +24,13 @@ export function BotãoInicio({ ...rest }: TouchableOpacityProps) {
   return (
     <TouchableOpacity
       style={{
-        width: '75%',
+        width: '80%',
         height: 60,
         backgroundColor: colors.amarelo1,
         borderRadius: 5,
         justifyContent: "center",
         alignItems: "center",
+        flexDirection: "row",
       }}
       {...rest}
     />

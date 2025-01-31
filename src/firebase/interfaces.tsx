@@ -5,8 +5,10 @@ export interface Users{     //SERVE PARA PASSAR OS PARAMETROS DE CADA ITEM PARA 
     setor: string,
     tipo: string,
     email: string,
-    localizacao: string,
-    foto: string
+    regiao: string,
+    foto: string,
+    tipoConta: string,
+    fone: string
 }; 
 
 export interface Vagas{     //SERVE PARA PASSAR OS PARAMETROS DE CADA ITEM PARA A FLAT-LIST
